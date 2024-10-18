@@ -3,7 +3,7 @@ import 'jspdf-autotable';
 import fs from 'fs';
 import path from 'path';
 
-export const generatePdf = () => {
+export const generatePdfVa = () => {
   const doc = new jsPDF();
   let pageNumber = 1;
 
@@ -279,37 +279,29 @@ addressLine
   yPos = checkAndAddNewPage(yPos);
   
   const tableData = [
-    ['NPWP', ': 0847027216067000'],
-    ['Tax Register', ''],
-    ['Nomor Polis', ': 03240000006810 / 2024'],
-    ['Policy Number', ''],
-    ['Endorsement No', ': 0'],
-    ['Endorsement No', ''],
-    [`Klasifikasi Premi`, ': PAR - PERTAMINA RETAIL, CASH IN TRANSIT- PERTAMINA RETAIL, PERSONAL ACCIDENT\n  KHUSUS PERTAMINA RETAIL, CASH IN SAFE - PERTAMINA RETAIL, CGL - PERTAMINA RETAIL'],
-    ['', ''],
-    ['Periode Asuransi', ': 30 Aug 2024 to 31 May 2025'],
-    ['Insurance Period', ''],
-    ['Tertanggung', ': MR EMYR GIOVANNI'],
-    ['Insured', ''],
-    ['Tertanggung Lainnya', ': -'],
-    ['Other Insured', ''],
-    ['Total Pertanggungan', ': AS PER POLICY ATTACHED'],
-    ['Sum Insured', ''],
-    ['Keterangan Lain', ': -'],
-    ['Particulars', ''],
-    ['Premi', ': IDR 2.490.092'],
-    ['Premium', ''],
-    ['Biaya Administrasi', ': IDR 100.000'],
-    ['Admin Cost', ''],
-    ['Jumlah Neto\nYang Harus Dibayar', ': IDR 2.590.092'],
-    ['Net Value', ''],
-    ['Terbilang', ': DUA JUTA LIMA RATUS SEMBILAN PULUH RIBU SEMBILAN PULUH DUA RUPIAH'],
-    ['Say',''],
-    ['','  TWO MILLION FIVE HUNDRES NINETY THOUSAND NINETY-TWO RUPIAH'],
-    ['','Dibebaskan dari PPN sesuai PP NO 49 THN 2022'],
-    ['','Free of VAT reff to PP NO 49 THN 2022'],
-    ['Jatuh Tempo Pembayaran',': 29 Sep 2024'],
-    ['Payment due at',''],
+    ['NPWP', ':',' -'],
+    ['','',''],
+    ['Nomor Polis', ':','03240000007105 / 2024'],
+    ['','',''],
+    [`Klasifikasi Premi`, ':','EARTHQUAKE, PROPERTY ALL RISKS'],
+    ['','',''],
+    ['Periode Asuransi', ':', '18 Sep 2024 to 18 Sep 2025'],
+    ['','',''],
+    ['Tertanggung', ':', 'PT BHAKTI MINGASUTAMA'],
+    ['','',''],
+    ['Tertanggung Lainnya', ':', '-'],
+    ['','',''],
+    ['Total Pertanggungan', ':', 'IDR 334.750.000.000'],
+    ['','',''],
+    ['Keterangan Lain', ':','Being Renewal Premium iro PAREQ Insurance Cover Less 10% DiscountRisk Location: Desa Sukahaji, Kecamatan Patrol, Indramayu & ndash'],
+    ['','',''],
+    ['Premi', ':', 'IDR 1.408.250'],
+    ['','',''],
+    ['Biaya Administrasi', ':', 'IDR 70.000'],
+    ['','',''],
+    ['Diskon', ':', 'IDR 140.829.330'],
+    ['','',''],
+    ['Detail Angsuran', ':',''],
   ];
 
   doc.autoTable({
@@ -320,103 +312,126 @@ addressLine
     styles: {
       fontSize: 8,
       cellPadding: 0,
-      fontStyle: 'bold'
+      fontStyle: 'bold',
     },
     columnStyles: {
-      0: { cellWidth: 40 },
-      1: { cellWidth: 'auto' },
+      0: { cellWidth: 38 },
+      1: { cellWidth: 2 },
+      2: { cellWidth: 'auto' },
     },
     didParseCell: function(data) {
-      if(data.row.index % 2 == 1 && data.row.index <= tableData.length - 6){
-        data.cell.styles.fontStyle = 'bolditalic';
-        data.cell.styles.fontSize = 6;
         data.cell.styles.minCellHeight = 3;
-      }else if(data.row.index % 2 != 0 && data.row.index <= tableData.length - 6){
-        data.cell.styles.fontStyle = 'italic';
-      }else if(data.row.index == 26){
-        data.cell.styles.fontStyle = 'bolditalic';
-        data.cell.styles.fontSize = 8;
-        data.cell.styles.minCellHeight = 6;
-      }else if(data.row.index == 28){
-        data.cell.styles.fontStyle = 'bolditalic';
-        data.cell.styles.fontSize = 6;
-        data.cell.styles.minCellHeight = 4;
-      }
     },
     didDrawCell: function(data) {
-      if(data.row.index == 6){
+      if(data.row.index == 0){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Tax Register', data.cell.x, data.cell.y+5)
+        }
+      }
+      if(data.row.index == 2){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Policy Number', data.cell.x, data.cell.y+5)
+        }
+      }
+      if(data.row.index == 4){
         if(data.column.index == 0){
           doc.setFontSize(6);
           doc.setFont("helvetica", "italic", "bold");
           doc.text('Premium Class', data.cell.x, data.cell.y+5)
         }
-      }else if(data.row.index == 22){
-        if(data.column.index == 1){
+      }
+      if(data.row.index == 6){
+        if(data.column.index == 0){
           doc.setFontSize(6);
-          doc.setFont("helvetica", "bold");
-          doc.text('PPN     : 0', data.cell.x + 90, data.cell.y + 2);
-          doc.setFontSize(5);
-          doc.setFont("helvetica", "bolditalic");
-          doc.text('VAT', data.cell.x + 90, data.cell.y + 4);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Insurance Period', data.cell.x, data.cell.y+5)
+        }
+      }
+      if(data.row.index == 8){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Insured', data.cell.x, data.cell.y+5)
+        }
+      }
+      if(data.row.index == 10){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Other Insured', data.cell.x, data.cell.y+5)
+        }
+      }
+      if(data.row.index == 12){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Sum Insured', data.cell.x, data.cell.y+5)
+        }
+      }
+      if(data.row.index == 14){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Particulars', data.cell.x, data.cell.y+5)
+        }
+      }
+      if(data.row.index == 16){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Premium', data.cell.x, data.cell.y+5)
+        }
+      }
+      if(data.row.index == 18){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Admin Cost', data.cell.x, data.cell.y+5)
+        }
+      }
+      if(data.row.index == 20){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Discount', data.cell.x, data.cell.y+5)
+        }
+      }
+      if(data.row.index == 22){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Installment Details', data.cell.x, data.cell.y+5)
         }
       }
     }
   });
 
   yPos = doc.lastAutoTable.finalY + 5;
+
+
   yPos = checkAndAddNewPage(yPos);
 
-  const indonesianAmount = 'DUA JUTA LIMA RATUS SEMBILAN PULUH RIBU SEMBILAN PULUH DUA RUPIAH';
-  const englishAmount = 'TWO MILLION FIVE HUNDRES NINETY THOUSAND NINETY-TWO RUPIAH';
-  
-  // Fungsi untuk mengukur lebar teks
-  function getTextWidth(doc, text, fontSize) {
-    doc.setFontSize(fontSize);
-    return doc.getTextWidth(text);
-  }
-  
-  // Menentukan teks terpanjang
-  const longerText = getTextWidth(doc, indonesianAmount, 8) > getTextWidth(doc, englishAmount, 8) 
-    ? indonesianAmount 
-    : englishAmount;
-  
-  // Mengukur lebar teks terpanjang
-  const textWidth = getTextWidth(doc, longerText, 8);
-  
-  // Menentukan posisi awal dan akhir garis
-  const lineStartX = 62; // Tetap menggunakan posisi awal yang sama
-  const lineEndX = Math.min(lineStartX + textWidth + 5, 190); // Tambahkan sedikit margin dan batasi maksimum
-  
-  doc.setTextColor(0,0,0);
-  doc.setDrawColor(0,0,0);
-  doc.setFillColor(0,0,0);
-  doc.setLineWidth(0.5);
-  doc.line(lineStartX, yPos - 26.5, lineEndX, yPos - 26.5);
-  yPos += 2;
-
-
-  // CONTENT 4
-  yPos = checkAndAddNewPage(yPos);
-
-  doc.setFontSize(8);
-  doc.setFont("helvetica","bold");
-  doc.text("Pembayaran dapat dilakukan melalui transfer ke alamat rekening berikut ini dengan menambahkan informasi Billing Number", 15, yPos);
-  yPos += 3;
-
-  doc.setFontSize(7);
-  doc.setFont("helvetica","bolditalic");
-  doc.text("Please transfer to our bank as state the debit number on bank", 15, yPos);
-  yPos += 3;
-
-  // CONTENT 5
-  yPos = checkAndAddNewPage(yPos);
-
-  const tableData2 = {
+  const tableData3 = {
     head: [
-      ['Bank', 'Cabang/Branch', 'Mata Uang/Currency', 'Nomor Virtual Akun/Virtual Account Number', 'Nama Virtual Akun/Virtual Account Name']
+      ['No', 'Jatuh Tempo/Due Date', 'Jumlah Angsuran/Amount Due']
     ],
     body: [
-      ['MANDIRI', 'WISMA TUGU', 'IDR', '8800110240000740', 'TUGU PRATAMA INDONESIA']
+      ['01', '18 Oct 2024', 'IDR 126.816.392'],
+      ['02', '18 Nov 2024', 'IDR 126.816.392'],
+      ['03', '18 Dec 2024', 'IDR 126.816.392'],
+      ['04', '18 Jan 2025', 'IDR 126.816.392'],
+      ['05', '18 Feb 2025', 'IDR 126.816.392'],
+      ['06', '18 Mar 2025', 'IDR 126.816.392'],
+      ['07', '18 Apr 2025', 'IDR 126.816.392'],
+      ['08', '18 May 2025', 'IDR 126.816.392'],
+      ['09', '18 Jun 2025', 'IDR 126.816.392'],
+      ['10', '18 Jul 2025', 'IDR 126.816.392'],
+      ['11', '18 Aug 2025', 'IDR 126.816.392'],
+      ['12', '18 Sep 2025', 'IDR 126.816.392'],
     ]
   };
 
@@ -446,7 +461,215 @@ addressLine
   };
 
   // Hitung tinggi tabel
-  const tableHeight = calculateTableHeight(tableData2, [
+  const tableHeight = calculateTableHeight(tableData3, [
+    { cellWidth: 30 },
+    { cellWidth: 30 },
+    { cellWidth: 30 },
+    { cellWidth: 30 },
+  ]);
+
+  // Cek apakah tabel muat di halaman saat ini
+  const pageHeight = doc.internal.pageSize.getHeight();
+  if (yPos + tableHeight > pageHeight - 25) {
+    doc.addPage();
+    pageNumber++;
+    addHeader();
+    addFooter();
+    yPos = 35;
+  }
+
+  doc.autoTable({
+    head: tableData3.head,
+    body: tableData3.body,
+    startY: yPos,
+    margin: {right: 45, left: 45}, 
+    styles: {
+      halign: 'center',
+      valign: 'middle',
+      tableLineWidth: 0.5,
+    },
+    headStyles: headerStyles,
+    bodyStyles: contentStyles,
+    theme: 'grid',
+    lineColor: 10,
+    columnStyles: {
+      0: { cellWidth: 20 },
+      1: { cellWidth: 50 },
+      2: { cellWidth: 50 },
+    }
+  });
+
+  yPos = doc.lastAutoTable.finalY + 5;
+
+  // CONTENT 7
+ yPos = checkAndAddNewPage(yPos);
+ let getCurrentLine;
+
+ const tableData4 = [
+   ['Jumlah Neto\nYang Harus Dibayar', ':','IDR 1.267.533.920'],
+   ['','', ''],
+   ['Terbilang', ':','SATU MILYAR DUA RATUS ENAM PULUH TUJUH JUTA LIMA RATUS TIGA PULUH TIGA RIBU SEMBILAN RATUS DUA PULUH RUPIAH'],
+   ['','', ''],
+   ['','','ONE BILLION TWO HUNDRED SIXTY-SEVEN MILLION FIVE HUNDRED THIRTY-THREE THOUSAND NINE HUNDRED TWENTY RUPIAH'],
+   ['','', 'Dibebaskan dari PPN sesuai PP NO 49 THN 2022'],
+   ['','', 'Free of VAT reff to PP NO 49 THN 2022'],
+ ];
+
+ // Fungsi untuk menghitung tinggi tabel
+ const calculateTableHeight2 = (data, styles, columnStyles) => {
+   let totalHeight = 0;
+   data.forEach((row, rowIndex) => {
+     let rowHeight = 0;
+     row.forEach((cell, colIndex) => {
+       const cellWidth = columnStyles[colIndex].cellWidth || doc.internal.pageSize.width;
+       const cellStyle = {...styles, ...columnStyles[colIndex]};
+       const lines = doc.splitTextToSize(cell, cellWidth - cellStyle.cellPadding * 2);
+       const cellHeight = lines.length * cellStyle.fontSize / doc.internal.scaleFactor + 2 * cellStyle.cellPadding;
+       rowHeight = Math.max(rowHeight, cellHeight);
+     });
+     totalHeight += rowHeight;
+   });
+   return totalHeight;
+ };
+
+ const tableStyles = {
+   fontSize: 8,
+   cellPadding: 0,
+   fontStyle: 'bold',
+ };
+
+ const columnStyles = {
+   0: { cellWidth: 38 },
+   1: { cellWidth: 2 },
+   2: { cellWidth: 'auto' },
+ };
+
+ // Hitung tinggi tabel
+ const tableHeight3 = calculateTableHeight2(tableData4, tableStyles, columnStyles);
+
+ // Cek apakah tabel muat di halaman saat ini
+ const remainingSpace = doc.internal.pageSize.height - yPos - doc.internal.getFontSize() * 3;
+ if (tableHeight3 > remainingSpace - 15) {
+   doc.addPage();
+   pageNumber++;
+   addHeader();
+   addFooter();
+   yPos = 30; 
+ }
+
+ doc.autoTable({
+   body: tableData4,
+   startY: yPos,
+   margin: 20,
+   theme: 'plain',
+   styles: tableStyles,
+   columnStyles: columnStyles,
+   didParseCell: function(data) {
+     if (data.row.index == 5) {
+        data.cell.styles.fontStyle = 'bold';
+        data.cell.styles.fontSize = 8;
+        data.cell.styles.minCellHeight = 0;
+     }else if(data.row.index == 6) {
+        data.cell.styles.fontStyle = 'bolditalic';
+        data.cell.styles.fontSize = 7;
+        data.cell.styles.minCellHeight = 1;
+      }else if (data.row.index == 3) {
+        data.cell.styles.minCellHeight = 4;
+      }else if (data.row.index == 4) {
+        console.log(data.cell.text);
+        if(data.column.index == 1){
+            data.cell.styles.minCellHeight = 8;
+        }
+      }
+   },
+   didDrawCell: function(data) {
+     if (data.row.index == 0) {
+       if (data.column.index == 0) {
+         doc.setFontSize(6);
+         doc.setFont("helvetica", "italic", "bold");
+         doc.text('Net Value', data.cell.x, data.cell.y + 8);
+       }
+     }
+     if (data.row.index == 2) {
+       if (data.column.index == 0) {
+         doc.setFontSize(6);
+         doc.setFont("helvetica", "italic", "bold");
+         doc.text('Say', data.cell.x, data.cell.y + 5);
+       }
+       if (data.column.index == 1) {
+         getCurrentLine = data.cell.y + 9;
+       }
+     }
+   }
+ });
+
+ yPos = doc.lastAutoTable.finalY + 5;
+
+//   ~~AKHIR CONTENT 7~~
+
+  // ~~GARIS BIAYA TABLE~~
+
+  const indonesianAmount = 'SATU MILYAR DUA RATUS ENAM PULUH TUJUH JUTA LIMA RATUS TIGA PULUH TIGA RIBU SEMBILAN RATUS DUA PULUH RUPIAH';
+  const englishAmount = 'TWO MILLION FIVE HUNDRES NINETY THOUSAND NINETY-TWO RUPIAH';
+  
+  // Fungsi untuk mengukur lebar teks
+  function getTextWidth(doc, text, fontSize) {
+    doc.setFontSize(fontSize);
+    return doc.getTextWidth(text);
+  }
+  
+  // Menentukan teks terpanjang
+  const longerText = getTextWidth(doc, indonesianAmount, 8) > getTextWidth(doc, englishAmount, 8) 
+    ? indonesianAmount 
+    : englishAmount;
+  
+  // Mengukur lebar teks terpanjang
+  const textWidth = getTextWidth(doc, longerText, 8);
+  
+  // Menentukan posisi awal dan akhir garis
+  const lineStartX = 60;
+  const lineEndX = Math.min(lineStartX + textWidth + 5, 190);
+  
+  doc.setTextColor(0,0,0);
+  doc.setDrawColor(0,0,0);
+  doc.setFillColor(0,0,0);
+  doc.setLineWidth(0.5);
+  doc.line(lineStartX, getCurrentLine - 0.6, lineEndX, getCurrentLine- 0.6);
+  yPos += 2;
+
+  // ~~AKHIR GARIS BIAYA TABLE~~
+
+
+  // CONTENT 4
+  yPos = checkAndAddNewPage(yPos);
+
+  doc.setFontSize(8);
+  doc.setFont("helvetica","bold");
+  doc.text("Pembayaran dapat dilakukan melalui transfer ke alamat rekening berikut ini dengan menambahkan informasi Billing Number", 15, yPos);
+  yPos += 3;
+
+  doc.setFontSize(7);
+  doc.setFont("helvetica","bolditalic");
+  doc.text("Please transfer to our bank as state the debit number on bank", 15, yPos);
+  yPos += 3;
+
+  // CONTENT 5
+  yPos = checkAndAddNewPage(yPos);
+
+  const tableData2 = {
+    head: [
+      ['Bank', 'Cabang/Branch', 'Mata Uang/Currency', 'Nomor Virtual Akun/Virtual Account Number', 'Nama Virtual Akun/Virtual Account Name']
+    ],
+    body: [
+      ['MANDIRI', 'WISMA TUGU', 'IDR', '8800110240000740', 'TUGU PRATAMA INDONESIA']
+    ]
+  };
+
+  const headerStyles2 = { fillColor: [0, 0, 139], textColor: [255, 255, 255], fontSize: 8 };
+  const contentStyles2 = { fontSize: 8, textColor: [0, 0, 0], fontStyle: "bold" };
+
+  // Hitung tinggi tabel
+  const tableHeight2 = calculateTableHeight(tableData2, [
     { cellWidth: 30 },
     { cellWidth: 30 },
     { cellWidth: 30 },
@@ -455,8 +678,8 @@ addressLine
   ]);
 
   // Cek apakah tabel muat di halaman saat ini
-  const pageHeight = doc.internal.pageSize.getHeight();
-  if (yPos + tableHeight > pageHeight - 20) {
+  const pageHeight2 = doc.internal.pageSize.getHeight();
+  if (yPos + tableHeight2 > pageHeight2 - 20) {
     doc.addPage();
     pageNumber++;
     addHeader();
@@ -474,8 +697,8 @@ addressLine
       valign: 'middle',
       tableLineWidth: 0.5,
     },
-    headStyles: headerStyles,
-    bodyStyles: contentStyles,
+    headStyles: headerStyles2,
+    bodyStyles: contentStyles2,
     theme: 'grid',
     lineColor: 10,
     columnStyles: {
@@ -510,6 +733,10 @@ addressLine
   doc.setFont("helvetica", "bold");
   doc.text('HESTI LISTYOWATI .', 15, yPos);
   yPos += 1;
+  doc.setTextColor(0,0,0);
+  doc.setDrawColor(0,0,0);
+  doc.setFillColor(0,0,0);
+  doc.setLineWidth(0.5);
   doc.line(15, yPos, 60, yPos);
   yPos += 3;
   doc.text('AUTHORIZED SIGNATORY', 15, yPos);
