@@ -279,38 +279,40 @@ addressLine
   yPos = checkAndAddNewPage(yPos);
   
   const tableData = [
-    ['NPWP', ': 0847027216067000'],
-    ['Tax Register', ''],
-    ['Nomor Polis', ': 03240000006810 / 2024'],
-    ['Policy Number', ''],
-    ['Endorsement No', ': 0'],
-    ['Endorsement No', ''],
-    [`Klasifikasi Premi`, ': PAR - PERTAMINA RETAIL, CASH IN TRANSIT- PERTAMINA RETAIL, PERSONAL ACCIDENT\n  KHUSUS PERTAMINA RETAIL, CASH IN SAFE - PERTAMINA RETAIL, CGL - PERTAMINA RETAIL'],
-    ['', ''],
-    ['Periode Asuransi', ': 30 Aug 2024 to 31 May 2025'],
-    ['Insurance Period', ''],
-    ['Tertanggung', ': MR EMYR GIOVANNI'],
-    ['Insured', ''],
-    ['Tertanggung Lainnya', ': -'],
-    ['Other Insured', ''],
-    ['Total Pertanggungan', ': AS PER POLICY ATTACHED'],
-    ['Sum Insured', ''],
-    ['Keterangan Lain', ': -'],
-    ['Particulars', ''],
-    ['Premi', ': IDR 2.490.092'],
-    ['Premium', ''],
-    ['Biaya Administrasi', ': IDR 100.000'],
-    ['Admin Cost', ''],
-    ['Jumlah Neto\nYang Harus Dibayar', ': IDR 2.590.092'],
-    ['Net Value', ''],
-    ['Terbilang', ': DUA JUTA LIMA RATUS SEMBILAN PULUH RIBU SEMBILAN PULUH DUA RUPIAH'],
-    ['Say',''],
-    ['','  TWO MILLION FIVE HUNDRES NINETY THOUSAND NINETY-TWO RUPIAH'],
-    ['','Dibebaskan dari PPN sesuai PP NO 49 THN 2022'],
-    ['','Free of VAT reff to PP NO 49 THN 2022'],
-    ['Jatuh Tempo Pembayaran',': 29 Sep 2024'],
-    ['Payment due at',''],
+    ['NPWP', ':', '0847027216067000'],
+    ['','', ''],
+    ['Nomor Polis', ':', '03240000006810 / 2024'],
+    ['','', ''],
+    ['Endorsement No', ':', '0'],
+    ['','', ''],
+    [`Klasifikasi Premi`, ':','PAR - PERTAMINA RETAIL, CASH IN TRANSIT- PERTAMINA RETAIL, PERSONAL ACCIDENT\nKHUSUS PERTAMINA RETAIL, CASH IN SAFE - PERTAMINA RETAIL, CGL - PERTAMINA RETAIL'],
+    ['','', ''],
+    ['Periode Asuransi', ':', '30 Aug 2024 to 31 May 2025'],
+    ['','', ''],
+    ['Tertanggung', ':', 'MR EMYR GIOVANNI'],
+    ['','', ''],
+    ['Tertanggung Lainnya', ':', '-'],
+    ['','', ''],
+    ['Total Pertanggungan', ':', 'AS PER POLICY ATTACHED'],
+    ['','', ''],
+    ['Keterangan Lain', ':', '-'],
+    ['','', ''],
+    ['Premi', ':', 'IDR 2.490.092'],
+    ['','', ''],
+    ['Biaya Administrasi', ':', 'IDR 100.000'],
+    ['','', ''],
+    ['Jumlah Neto\nYang Harus Dibayar', ':', 'IDR 2.590.092'],
+    ['','', ''],
+    ['Terbilang', ':', 'DUA JUTA LIMA RATUS SEMBILAN PULUH RIBU SEMBILAN PULUH DUA RUPIAH'],
+    ['','',''],
+    ['','','TWO MILLION FIVE HUNDRES NINETY THOUSAND NINETY-TWO RUPIAH'],
+    ['','','Dibebaskan dari PPN sesuai PP NO 49 THN 2022'],
+    ['','','Free of VAT reff to PP NO 49 THN 2022'],
+    ['Jatuh Tempo Pembayaran',':', '29 Sep 2024'],
+    ['','',''],
   ];
+
+  let getCurrentLine;
 
   doc.autoTable({
     body: tableData,
@@ -323,16 +325,13 @@ addressLine
       fontStyle: 'bold'
     },
     columnStyles: {
-      0: { cellWidth: 40 },
+      0: { cellWidth: 38 },
+      1: { cellWidth: 2 },
       1: { cellWidth: 'auto' },
     },
     didParseCell: function(data) {
-      if(data.row.index % 2 == 1 && data.row.index <= tableData.length - 6){
-        data.cell.styles.fontStyle = 'bolditalic';
-        data.cell.styles.fontSize = 6;
+      if(data.row.index % 2 == 1){
         data.cell.styles.minCellHeight = 3;
-      }else if(data.row.index % 2 != 0 && data.row.index <= tableData.length - 6){
-        data.cell.styles.fontStyle = 'italic';
       }else if(data.row.index == 26){
         data.cell.styles.fontStyle = 'bolditalic';
         data.cell.styles.fontSize = 8;
@@ -358,6 +357,81 @@ addressLine
           doc.setFontSize(5);
           doc.setFont("helvetica", "bolditalic");
           doc.text('VAT', data.cell.x + 90, data.cell.y + 4);
+        }
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Net Value', data.cell.x, data.cell.y+8.2)
+        }
+      }else if(data.row.index == 0){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Tax Register', data.cell.x, data.cell.y+5)
+        }
+      }else if(data.row.index == 2){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Policy Number', data.cell.x, data.cell.y+5)
+        }
+      }else if(data.row.index == 4){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Endorsement No', data.cell.x, data.cell.y+5)
+        }
+      }else if(data.row.index == 8){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Insurance Period', data.cell.x, data.cell.y+5)
+        }
+      }else if(data.row.index == 10){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Insured', data.cell.x, data.cell.y+5)
+        }
+      }else if(data.row.index == 12){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Other Insured', data.cell.x, data.cell.y+5)
+        }
+      }else if(data.row.index == 14){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Sum Insured', data.cell.x, data.cell.y+5)
+        }
+      }else if(data.row.index == 16){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Particulars', data.cell.x, data.cell.y+5)
+        }
+      }else if(data.row.index == 18){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Premium', data.cell.x, data.cell.y+5)
+        }
+      }else if(data.row.index == 20){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Admin Cost', data.cell.x, data.cell.y+5)
+        }
+      }else if(data.row.index == 24){
+        if(data.column.index == 0){
+          doc.setFontSize(6);
+          doc.setFont("helvetica", "italic", "bold");
+          doc.text('Say', data.cell.x, data.cell.y+5)
+        }
+      }else if(data.row.index == 23){
+        if(data.column.index == 1){
+          getCurrentLine = data.cell.y + 9;
         }
       }
     }
@@ -391,7 +465,7 @@ addressLine
   doc.setDrawColor(0,0,0);
   doc.setFillColor(0,0,0);
   doc.setLineWidth(0.5);
-  doc.line(lineStartX, yPos - 26.5, lineEndX, yPos - 26.5);
+  doc.line(lineStartX, getCurrentLine - 1, lineEndX, getCurrentLine - 1);
   yPos += 2;
 
 

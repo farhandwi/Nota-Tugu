@@ -589,6 +589,14 @@ addressLine
          doc.setFont("helvetica", "italic", "bold");
          doc.text('Net Value', data.cell.x, data.cell.y + 8);
        }
+       if(data.column.index == 1){
+        doc.setFontSize(6);
+        doc.setFont("helvetica", "bold");
+        doc.text('PPN     : 0', data.cell.x + 90, data.cell.y + 2);
+        doc.setFontSize(5);
+        doc.setFont("helvetica", "bolditalic");
+        doc.text('VAT', data.cell.x + 90, data.cell.y + 4);
+      }
      }
      if (data.row.index == 2) {
        if (data.column.index == 0) {
