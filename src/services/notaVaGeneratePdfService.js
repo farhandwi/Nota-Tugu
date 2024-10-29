@@ -669,7 +669,10 @@ addressLine
       ['Bank', 'Cabang/Branch', 'Mata Uang/Currency', 'Nomor Virtual Akun/Virtual Account Number', 'Nama Virtual Akun/Virtual Account Name']
     ],
     body: [
-      ['MANDIRI', 'WISMA TUGU', 'IDR', '8800110240000740', 'TUGU PRATAMA INDONESIA']
+      ['MANDIRI', 'WISMA TUGU', 'IDR', '8800110240000740', 'TUGU PRATAMA INDONESIA'],
+      ['BNI', 'GRAHA BNI', 'IDR', '8249001240007343', 'TUGU PRATAMA INDONESIA'],
+      ['BRI', 'JAKARTA VETERAN', 'IDR', '8800110240000740', 'BRINS GENERAL INSURANCE'],
+      ['BCA', 'GRAHA PARAMITA', 'IDR', '1429801240007343', 'ASURANSI TUGU']
     ]
   };
 
